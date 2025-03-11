@@ -196,12 +196,12 @@ db_close($conn);
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#"><i
+                        <a class="nav-link active" aria-current="page" href="index.php"><i
                                 class="fas fa-home me-2"></i>Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="complaint_report.html"><i
-                                class="fas fa-chart-bar me-2"></i>Reports</a>
+                        <a class="nav-link" href="./supervisor_report.php"><i class="fas fa-chart-bar me-2"></i>Reports
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="supervisor_map.html"><i class="fas fa-map-marker-alt me-2"></i>Map</a>
@@ -235,8 +235,8 @@ db_close($conn);
                             <i class="fas fa-user-circle me-2"></i><?php echo $name ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                    data-bs-target="#viewProfileModal">View Profile</a></li>
+                            <li><a class="dropdown-item" href="./view_profile.php" data-bs-toggle="modal"
+                                    data-bs-target="">View Profile</a></li>
                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
                                     data-bs-target="#updateProfileModal">Update Profile</a></li>
                             <li>
@@ -250,7 +250,7 @@ db_close($conn);
             </div>
         </div>
     </nav>
-    <!-- View Profile Modal -->
+    <!-- View Profile Modal
     <div class="modal fade" id="viewProfileModal" tabindex="-1" aria-labelledby="viewProfileModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -272,8 +272,8 @@ db_close($conn);
         </div>
     </div>
 
-    <!-- Update Profile Modal -->
-    <div class="modal fade" id="updateProfileModal" tabindex="-1" aria-labelledby="updateProfileModalLabel"
+    Update Profile Modal -->
+    <!-- <div class="modal fade" id="updateProfileModal" tabindex="-1" aria-labelledby="updateProfileModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -300,7 +300,7 @@ db_close($conn);
                 </div>
             </div>
         </div>
-    </div>
+    </div> --> 
 
     <!-- Content Section -->
     <div class="container mt-5 pt-4">
@@ -346,7 +346,7 @@ db_close($conn);
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="complaintsTable">
+                    <table class="table table-bordered table-hover table-striped" id="complaintsTable">
                         <thead>
                             <tr>
                                 <th>SNO</th>
@@ -472,18 +472,6 @@ db_close($conn);
                     (typeof value === "object" && Object.keys(value).length === 0);
             }
 
-            document.getElementById('updateProfileForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const name = document.getElementById('editName').value;
-                const email = document.getElementById('editEmail').value;
-                const phone = document.getElementById('editPhone').value;
-
-                // Update profile data (example, could be saved to backend or local storage)
-                alert('Profile Updated: ' + name + ', ' + email + ', ' + phone);
-                $('#updateProfileModal').modal('hide'); // Hide modal after saving changes
-            });
-
             var status = "Open";
 
             $(document).ready(function() {
@@ -595,6 +583,7 @@ db_close($conn);
 
 
 
+            
             function fetchStatusCounts() {
                 $.ajax({
                     url: "../query/complaints_status_count.php",

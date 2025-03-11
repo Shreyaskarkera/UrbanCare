@@ -43,7 +43,7 @@ $stmt->close();
             object-fit: cover;
         }
         .container {
-            max-width: 600px;
+            max-width: 70%;
             margin-top: 50px;
         }
     </style>
@@ -54,7 +54,7 @@ $stmt->close();
         <div class="card p-4 shadow">
             <form action="update_profile_action.php" method="post" enctype="multipart/form-data">
                 <div class="text-center">
-                    <img src="<?php echo $user['photo']; ?>" class="profile-img img-thumbnail mb-3" alt="Profile Picture">
+                    <img src="../<?php echo $user['photo']; ?>" class="profile-img img-thumbnail mb-3" alt="Profile Picture">
                 </div>
                 
                 <div class="mb-3">

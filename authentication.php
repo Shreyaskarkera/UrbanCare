@@ -74,5 +74,4 @@ function getUserById($id)
     return $user;
 }
 
-
 ?>

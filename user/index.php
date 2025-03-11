@@ -14,6 +14,8 @@ if($_SESSION['role_name'] != 'USER'){
    </script>";
 }
 
+
+
 $name = $_SESSION['name'];
 
 ?>
@@ -153,7 +155,10 @@ body {
                     <li class="nav-item">
                         <a class="nav-link position-relative" href="./user_notification.php">
                             <i class="bi bi-bell"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                            <span id="notificationBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+    0
+</span>
+
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -268,5 +273,7 @@ body {
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    </script>
 </body>
 </html>

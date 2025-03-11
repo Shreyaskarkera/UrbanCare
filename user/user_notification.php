@@ -181,7 +181,10 @@ $user_id = $_SESSION['user_id']
                     <li class="nav-item">
                         <a class="nav-link position-relative" href="./user_notification.php">
                             <i class="bi bi-bell"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                            <span id="userNotificationBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+    0
+</span>
+
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -299,6 +302,8 @@ $user_id = $_SESSION['user_id']
                 return `${Math.floor(difference / 86400)} days ago`;
             }
         }
+
+        
     </script>
 </body>
 

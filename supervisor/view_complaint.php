@@ -284,7 +284,7 @@ db_close($conn);
                 </div>
             </div>
             <div class="col-md-6">
-                <div id="map" style="height: 400px; border-radius: 8px;"></div>
+                <div id="map" style="height: 420px; border-radius: 8px;"></div>
             </div>
             <div class="col-md-12">
             <h3 class="card-title" id="complaintTitle">Complaint Image</h3>

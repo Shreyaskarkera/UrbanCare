@@ -12,10 +12,11 @@ $places = [];
 
 if ($result->num_rows > 0) {
     // Fetch all rows and store them in an array
-    while ($row = $result->fetch_assoc()) {
+    while ($row = mysqli_fetch_assoc($result)) {
         $places[] = $row;
     }
 }
+
 
 // Close the database connection
 db_close($conn);

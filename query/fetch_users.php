@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];  // Get logged-in user ID
 
 // Fetch user details from database
-$sql = "SELECT name, email, phone_no, photo FROM users WHERE id=?";
+$sql = "SELECT id,name, email, phone_no, photo FROM users WHERE id=?";
 $stmt = $conn->prepare($sql);
 
 // Check if the statement was prepared successfully

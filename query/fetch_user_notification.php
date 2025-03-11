@@ -3,7 +3,6 @@
 include '../connection.php'; 
 
 $conn = db_connect();
-
 $user_id = $_GET['user_id'];
 
 // Query to fetch active complaint types
@@ -18,6 +17,7 @@ if ($result->num_rows > 0) {
         $notification[] = $row;
     }
 }
+
 
 // Close the database connection
 db_close($conn);

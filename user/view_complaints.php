@@ -25,7 +25,7 @@ $user_id = $_SESSION['user_id'];
 require_once("../connection.php");
 $conn = db_connect();
 
-$sql = "SELECT * FROM complaints WHERE user_id = ?";
+$sql = "SELECT * FROM complaints WHERE user_id = ? ORDER BY created_at DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -204,8 +204,6 @@ db_close($conn);
                             echo "<td>" . $row["complaint_status"] . "</td>";
                             echo "</tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='5'>No complaints found.</td></tr>";
                     }
                     ?>
                 </tbody>
