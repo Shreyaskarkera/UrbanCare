@@ -72,7 +72,13 @@ $stmt = $conn->prepare($query);
 $stmt->bind_param("ii", $place_id, $supervisor_id);
 $stmt->execute();
 $complaints = $stmt->get_result();
+
+
+
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -81,7 +87,7 @@ $complaints = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supervisor Report</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
@@ -96,6 +102,7 @@ $complaints = $stmt->get_result();
             background-color: #1e1e2f;
             color: #e0e0e0;
         }
+
         .navbar {
             background-color: #3c4a59;
             /* Dark grey with blue undertones */
@@ -133,71 +140,95 @@ $complaints = $stmt->get_result();
         }
 
         .stats-card {
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.8); /* Light white text */
-}
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.8);
+            /* Light white text */
+        }
 
-        .resolved { background: #28a745; }
-        .pending { background: #ff9800; }
-        .in-progress { background: #007bff; }
-        .rejected { background: #dc3545; }
+        .resolved {
+            background: #28a745;
+        }
+
+        .pending {
+            background: #ff9800;
+        }
+
+        .in-progress {
+            background: #007bff;
+        }
+
+        .rejected {
+            background: #dc3545;
+        }
 
         .btn-switch {
             width: 120px;
         }
-/* Lighten "Show Entries" and "Search" Text */
-.dataTables_wrapper .dataTables_length label,
-.dataTables_wrapper .dataTables_filter label {
-    color: #bbbbbb !important; /* Light grey for better contrast */
-    font-weight: 500;
-}
 
-/* Keep Dropdown & Search Input Dark */
-.dataTables_wrapper .dataTables_length select,
-.dataTables_wrapper .dataTables_filter input {
-    background-color: #2b2f37; /* Dark background */
-    color: #ffffff; /* White text */
-    border: 1px solid #444; /* Subtle border */
-}    /* DataTable Search and Controls */
-.dataTables_wrapper .dataTables_filter input {
-    background-color: #3c3f45; /* Dark grey but softer */
-    color: #e0e0e0; /* Light text */
-    border: 1px solid #555; /* Soft border */
-    padding: 8px;
-    border-radius: 5px;
-}
+        /* Lighten "Show Entries" and "Search" Text */
+        .dataTables_wrapper .dataTables_length label,
+        .dataTables_wrapper .dataTables_filter label {
+            color: #bbbbbb !important;
+            /* Light grey for better contrast */
+            font-weight: 500;
+        }
 
-/* DataTable Pagination */
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    background-color: #444; /* Dark but soft */
-    color: #ddd !important; /* Light text */
-    border-radius: 4px;
-    padding: 6px 10px;
-    margin: 3px;
-    transition: background 0.3s;
-}
+        /* Keep Dropdown & Search Input Dark */
+        .dataTables_wrapper .dataTables_length select,
+        .dataTables_wrapper .dataTables_filter input {
+            background-color: #2b2f37;
+            /* Dark background */
+            color: #ffffff;
+            /* White text */
+            border: 1px solid #444;
+            /* Subtle border */
+        }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background-color: #555; /* Slightly lighter on hover */
-}
+        /* DataTable Search and Controls */
+        .dataTables_wrapper .dataTables_filter input {
+            background-color: #3c3f45;
+            /* Dark grey but softer */
+            color: #e0e0e0;
+            /* Light text */
+            border: 1px solid #555;
+            /* Soft border */
+            padding: 8px;
+            border-radius: 5px;
+        }
 
-/* DataTable Dropdowns */
-.dataTables_wrapper .dataTables_length select {
-    background-color: #3c3f45;
-    color: #e0e0e0;
-    border: 1px solid #555;
-    padding: 6px;
-    border-radius: 5px;
-}
+        /* DataTable Pagination */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            background-color: #444;
+            /* Dark but soft */
+            color: #ddd !important;
+            /* Light text */
+            border-radius: 4px;
+            padding: 6px 10px;
+            margin: 3px;
+            transition: background 0.3s;
+        }
 
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #555;
+            /* Slightly lighter on hover */
+        }
+
+        /* DataTable Dropdowns */
+        .dataTables_wrapper .dataTables_length select {
+            background-color: #3c3f45;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            padding: 6px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Urban Care</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -268,19 +299,19 @@ $complaints = $stmt->get_result();
 
         <!-- Complaint Stats Cards -->
         <div class="row text-center mb-3">
-    <div class="col-md-3 ">
-        <div class="stats-card  resolved">Resolved: <?= $stats['resolved'] ?></div>
-    </div>
-    <div class="col-md-3">
-        <div class="stats-card pending">Pending: <?= $stats['pending'] ?></div>
-    </div>
-    <div class="col-md-3">
-        <div class="stats-card in-progress">In Progress: <?= $stats['in_progress'] ?></div>
-    </div>
-    <div class="col-md-3">
-        <div class="stats-card rejected">Rejected: <?= $stats['rejected'] ?></div>
-    </div>
-</div>
+            <div class="col-md-3 ">
+                <div class="stats-card  resolved">Resolved: <?= $stats['resolved'] ?></div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card pending">Pending: <?= $stats['pending'] ?></div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card in-progress">In Progress: <?= $stats['in_progress'] ?></div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card rejected">Rejected: <?= $stats['rejected'] ?></div>
+            </div>
+        </div>
 
         <!-- Chart Toggle Buttons -->
         <div class="text-center mb-3">
@@ -308,66 +339,105 @@ $complaints = $stmt->get_result();
                 </thead>
                 <tbody>
                     <?php while ($row = $complaints->fetch_assoc()) { ?>
-                    <tr>
-                        <td><?= $row['id'] ?></td>
-                        <td><?= htmlspecialchars($row['title']) ?></td>
-                        <td><?= htmlspecialchars($row['description']) ?></td>
-                        <td><?= htmlspecialchars($row['complaint_status']) ?></td>
-                        <td><?= $row['created_at'] ?></td>
-                    </tr>
+                        <tr>
+                            <td><?= $row['id'] ?></td>
+                            <td><?= htmlspecialchars($row['title']) ?></td>
+                            <td><?= htmlspecialchars($row['description']) ?></td>
+                            <td><?= htmlspecialchars($row['complaint_status']) ?></td>
+                            <td><?= $row['created_at'] ?></td>
+                        </tr>
                     <?php } ?>
                 </tbody>
             </table>
         </div>
+        <!-- Report Download Modal -->
+<div class="modal fade" id="downloadReportModal" tabindex="-1" aria-labelledby="downloadReportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="downloadReportModalLabel">Download Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="startDate">From Date:</label>
+                <input type="date" id="startDate" class="form-control">
 
-        <!-- Export Buttons -->
-        <div class="text-center mt-3">
-            <button class="btn btn-danger" onclick="exportPDF()">Download PDF</button>
-            <button class="btn btn-success" onclick="exportExcel()">Download Excel</button>
+                <label for="endDate" class="mt-2">To Date:</label>
+                <input type="date" id="endDate" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="exportReport()">Download Excel</button>
+            </div>
         </div>
     </div>
+</div>
 
-    <script>
-        $(document).ready(function() {
-            $('#complaintTable').DataTable();
-        });
+<div class="d-flex justify-content-center align-items-center">
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#downloadReportModal">
+        Download Report
+    </button>
+</div>
+<!-- Bootstrap Bundle with Popper.js (Required for modals) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-        var ctx = document.getElementById('complaintChart').getContext('2d');
-        var currentChart;
+<script>
+    function exportReport() {
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+console.log(startDate);
+console.log(endDate);
+        if (startDate === "" || endDate === "") {
+            alert("Please select a valid date range.");
+            return;
+        }
 
-        function createChart(type) {
-            if (currentChart) {
-                currentChart.destroy();
+        window.location.href = 'export_excel.php?start=' + startDate + '&end=' + endDate;
+    }
+</script>
+
+        <script>
+            $(document).ready(function() {
+                $('#complaintTable').DataTable();
+            });
+
+            var ctx = document.getElementById('complaintChart').getContext('2d');
+            var currentChart;
+
+            function createChart(type) {
+                if (currentChart) {
+                    currentChart.destroy();
+                }
+
+                currentChart = new Chart(ctx, {
+                    type: type,
+                    data: {
+                        labels: ['Resolved', 'Pending', 'In Progress', 'Rejected'],
+                        datasets: [{
+                            data: [<?= $stats['resolved'] ?>, <?= $stats['pending'] ?>, <?= $stats['in_progress'] ?>, <?= $stats['rejected'] ?>],
+                            backgroundColor: ['#28a745', '#ff9800', '#007bff', '#dc3545'],
+                            color: ['#FFFFFF'],
+                            borderColor: ['#71c971', '#f8b26a', '#6fa8dc', '#e57373']
+                        }]
+                    }
+                });
             }
 
-            currentChart = new Chart(ctx, {
-                type: type,
-                data: {
-                    labels: ['Resolved', 'Pending', 'In Progress', 'Rejected'],
-                    datasets: [{
-                        data: [<?= $stats['resolved'] ?>, <?= $stats['pending'] ?>, <?= $stats['in_progress'] ?>, <?= $stats['rejected'] ?>],
-                        backgroundColor: ['#28a745', '#ff9800', '#007bff', '#dc3545'],
-                        color:[ '#FFFFFF'],
-                        borderColor: ['#71c971', '#f8b26a', '#6fa8dc', '#e57373']
-                    }]
-                }
-            });
-        }
+            function switchChart(type) {
+                createChart(type);
+            }
 
-        function switchChart(type) {
-            createChart(type);
-        }
+            switchChart('pie');
 
-        switchChart('pie');
+            function exportPDF() {
+                window.location.href = 'export_pdf.php';
+            }
 
-        function exportPDF() {
-            window.location.href = 'export_pdf.php';
-        }
-
-        function exportExcel() {
-            window.location.href = 'export_excel.php';
-        }
-    </script>
+            function exportExcel() {
+                window.location.href = 'export_excel.php';
+            }
+        </script>
 
 </body>
+
 </html>

@@ -1,0 +1,111 @@
+  /* Custom Color Scheme */
+    /* Custom Color Scheme */
+    :root {
+        --primary-color: #0077B6;
+        /* Soft Blue */
+        --secondary-color: #9e9e9e;
+        --toggle-icon-secondary-color: #ffffff00;
+        /* Vibrant Green */
+        --accent-color: #FF6F61;
+        /* Warm Coral */
+        --background-color: #F1F1F1;
+        /* Soft Gray */
+        --text-color: #333333;
+        /* Charcoal Gray */
+        --footer-color: #2A3D66;
+        /* Deep Slate */
+    }
+
+    body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
+
+    .navbar {
+        background-color: var(--primary-color);
+    }
+
+    .navbar-brand h1 {
+        color: white;
+    }
+
+    .navbar-nav .nav-link {
+        color: white;
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: rgb(73, 73, 73) !important;
+    }
+
+    /* Custom Toggle Icon */
+    .navbar-toggler-icon {
+        background-color: var(--toggle-icon-secondary-color);
+        /* Change the toggle icon color */
+    }
+
+    .navbar-toggler-icon:hover {
+        border: 1px solid var(--secondary-color);
+        /* Optional: Add border for better visibility */
+    }
+
+    .navbar-toggler-icon:hover {
+        background-color: var(--toggle-icon-secondary-color);
+        /* Hover effect */
+    }
+
+    .navbar-toggler-icon:focus {
+        box-shadow: none;
+        /* Removes the blue shadow when focused */
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: var(--primary-color);
+    }
+
+    /* .btn-primary {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+
+    .btn-primary:hover {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+    } */
+
+    .footer {
+        background-color: var(--footer-color);
+        color: white;
+    }
+
+    .card {
+        background-color: white;
+        border: 1px solid var(--primary-color);
+    }
+
+    .card-title {
+        color: var(--primary-color);
+    }
+
+    .accordion-button {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .accordion-button:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: var(--secondary-color);
+    }
+
+    .list-group-item {
+        background-color: white;
+        color: var(--text-color);
+    }
+
+    .list-group-item:hover {
+        background-color: var(--secondary-color);
+        color: white;
+    }

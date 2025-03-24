@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         case "Resolved":
             $sql = "UPDATE complaints SET complaint_status='$status' , resolved_date = NOW()  WHERE id=$id";
             $message = '<span><i class="fas fa-check-circle text-success me-2"></i>Complaint ID #'.$id.' has been resolved</span>
-            <span class="badge bg-warning ms-2">Resolved</span>';
+            <span class="badge bg-success ms-2">Resolved</span>';
             break;
         case "Rejected":
             $sql = "UPDATE complaints SET complaint_status='$status', action_date = NOW() WHERE id=$id";

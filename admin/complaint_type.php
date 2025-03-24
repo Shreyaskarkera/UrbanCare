@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_complaint_type'
 <body>
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-    <button class="toggle-btn" id="toggleSidebar">☰</button>
+    <button class="toggle-btn" id="toggleSidebar"></button>
     <h2 class="text-center">Urban Care</h2>
     <ul class="nav flex-column">
         <li class="nav-item"><a class="nav-link text-white" href="#">Dashboard</a></li>

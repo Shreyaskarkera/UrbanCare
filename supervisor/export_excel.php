@@ -16,25 +16,26 @@ if (!isset($_SESSION['user_id'])) {
 $supervisor_id = $_SESSION['user_id'];
 
 // Fetch assigned place
-$query = "SELECT place_id FROM supervisor_map WHERE supervisor_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $supervisor_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
+$from_date = $_GET['start'] ?? null;
+$to_date = $_GET['end'] ?? null;
 
-if (!$row) {
-    die("No place assigned to this supervisor.");
+$result = null;
+if ($from_date && $to_date) {
+    $query = "SELECT `id`, `title`, `user_id`, `complaint_type_id`, `place_id`, `photo`, 
+    `location`, `latitude`, `longitude`, `description`, `complaint_status`, 
+    `supervisor_id`, `action_date`, `resolved_date`, `created_at`, `updated_at`
+FROM `complaints`
+WHERE DATE(`created_at`) BETWEEN ? AND ?";
+
+
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("ss", $from_date, $to_date);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    echo "Please provide valid 'from_date' and 'to_date'.";
 }
 
-$place_id = $row['place_id'];
-
-// Fetch complaints
-$query = "SELECT id, title, complaint_status, created_at FROM complaints WHERE place_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $place_id);
-$stmt->execute();
-$result = $stmt->get_result();
 
 // Print table headers
 echo "ID\tTitle\tStatus\tDate\n";
@@ -44,5 +45,5 @@ while ($row = $result->fetch_assoc()) {
     echo "{$row['id']}\t{$row['title']}\t{$row['complaint_status']}\t{$row['created_at']}\n";
 }
 
+
 exit;
-?>

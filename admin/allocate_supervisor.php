@@ -58,12 +58,13 @@ $assignments = $conn->query("SELECT sm.id, p.name AS place_name, u.name AS super
     JOIN place p ON sm.place_id = p.id 
     JOIN users u ON sm.supervisor_id = u.id");
 
-mysqli_close($conn); 
+mysqli_close($conn);
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,140 +72,16 @@ mysqli_close($conn);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="../admin/css/admin.css">
+
     <style>
-        /* Sidebar Styling */
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #28a745;
-            padding-top: 20px;
-            color: white;
-            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .sidebar.hidden {
-            transform: translateX(-260px);
-        }
-
-        .toggle-btn {
-            position: absolute;
-            top: 15px;
-            left: 260px;
-            background: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-
-        .toggle-btn:hover {
-            background: #218838;
-        }
-
-        .sidebar .nav-link {
-            color: white;
-            padding: 10px;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidebar .nav-link:hover {
-            background-color: #218838;
-            border-radius: 5px;
-        }
-
-        .container{
-            margin-left: 20%;
-        }
-
-        /* Navbar Styling */
-        .top-nav {
-            background-color: #28a745;
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-left: 250px;
-            transition: margin-left 0.3s ease-in-out;
-        }
-
-        .sidebar.hidden + .top-nav {
-            margin-left: 0;
-        }
-
-        .top-nav .user-info {
-            display: flex;
-            align-items: center;
-        }
-        
-        .top-nav img {
-            width: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-            transition: margin-left 0.3s ease-in-out;
-        }
-
-        .sidebar.hidden + .top-nav + .main-content {
-            margin-left: 0;
-        }
-
-        /* Dashboard Cards */
-        .card {
-            border-radius: 10px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            background-color: #fff;
-            color: #333;
-            padding: 20px;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
-        .heading{
-            margin-left: 5%;
-        }
     </style>
 </head>
+
 <body>
-       <!-- Sidebar -->
-       <div class="sidebar" id="sidebar">
-    <h2 class="text-center">Urban Care</h2>
-    <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link text-white" href="#">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="./Tasks.html">Tasks</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="./Reports.html">Reports</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="./supervisor.php">Supervisors</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="./location.php">Location</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="./allocate_supervisor.php">Allocate Supervisor</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#">Logout</a></li>
-    </ul>
-</div>
-<div class="top-nav">
-<h3 class="heading">
-    <i class="fas fa-tachometer-alt"></i> Admin Dashboard
-</h3>
-            <div class="user-info">
-                <img src="profile.jpg" alt="Profile Picture">
-                <span><?php echo $name; ?></span>
-            </div>
-        </div>
+
+    <?php include './nav.php'; ?>
+    <div class="main-content">
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Supervisor Assignments</h2>
@@ -228,7 +105,7 @@ mysqli_close($conn);
             </tbody>
         </table>
     </div>
-    
+
     <!-- Modal -->
     <div class="modal fade" id="allocateModal" tabindex="-1" aria-labelledby="allocateModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -263,11 +140,15 @@ mysqli_close($conn);
             </div>
         </div>
     </div>
-
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#assignmentsTable').DataTable();
         });
     </script>
 </body>
+
 </html>

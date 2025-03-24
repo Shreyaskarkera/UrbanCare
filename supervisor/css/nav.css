@@ -1,0 +1,117 @@
+body {
+    background-color: #2b2f37;
+    /* Soft dark background */
+    color: #e0e0e0;
+    /* Light text */
+}
+
+.navbar {
+    background-color: #3c4a59;
+    /* Dark grey with blue undertones */
+}
+
+.navbar-toggler-icon {
+    background-color: #3c4a59;
+    /* Light blue toggle icon */
+}
+
+.navbar-nav .nav-link,
+.navbar-brand {
+    color: #f5f5f5;
+    /* Soft white text */
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-brand:hover {
+    color: #3498db;
+    /* Light Blue Hover */
+}
+
+.card {
+    background-color: #f3f8ff;
+    /* Dark grey card background */
+    border: 1px solid #4b5563;
+    /* Lighter border */
+}
+
+.card-header {
+    background-color: #4b5563;
+    /* Darker grey header */
+    color: #f5f5f5;
+    /* Light text */
+}
+
+.table {
+    background-color: #2f353d;
+    /* Darker background for table */
+    color: #e0e0e0;
+    /* Light text */
+}
+
+.table-primary {
+    background-color: #4b5563;
+    /* Header row darker grey */
+    color: #f5f5f5;
+    /* Light text */
+}
+
+.badge {
+    color: #fff;
+    /* White text for badges */
+}
+
+.badge.bg-warning {
+    background-color: #f39c12;
+    /* Yellow for Pending */
+}
+
+.badge.bg-success {
+    background-color: #27ae60;
+    /* Green for Resolved */
+}
+
+.badge.bg-info {
+    background-color: #2980b9;
+    /* Blue for In-Progress */
+}
+
+.btn-info {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+.btn-info:hover {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.btn-success {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}
+
+.btn-success:hover {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.btn-secondary {
+    background-color: #7f8c8d;
+    border-color: #7f8c8d;
+}
+
+.btn-secondary:hover {
+    background-color: #95a5a6;
+    border-color: #95a5a6;
+}
+
+.navbar-toggler-icon {
+    background-color: #3c4a59;
+    /* Light toggle icon */
+}
+
+.dropdown-menu {
+    background-color: #374151;
+    /* Dark dropdown menu */
+}
+

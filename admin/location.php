@@ -37,120 +37,23 @@ if ($stmt) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <link rel="stylesheet" href="../admin/css/admin.css">
+
+  
+
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+ 
+
   <style>
-    body { background-color: #f8f9fa; }
-    .navbar { box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); }
-    .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); }
-    .status-badge { font-weight: bold; padding: 5px 10px; border-radius: 5px; }
-    .active-status { background-color: #28a745; color: white; }
-    .inactive-status { background-color: #dc3545; color: white; }
-
-    .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #28a745;
-            padding-top: 20px;
-            color: white;
-            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .sidebar.hidden {
-            transform: translateX(-260px);
-        }
-
-       
-        .container{
-          margin-left: 20%;
-        }
-       
-
-        .sidebar .nav-link {
-            color: white;
-            padding: 10px;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidebar .nav-link:hover {
-            background-color: #218838;
-            border-radius: 5px;
-        }
-
-        /* Navbar Styling */
-        .top-nav {
-            background-color: #28a745;
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-left: 250px;
-            transition: margin-left 0.3s ease-in-out;
-        }
-
-        .sidebar.hidden + .top-nav {
-            margin-left: 0;
-        }
-
-        .top-nav .user-info {
-            display: flex;
-            align-items: center;
-        }
-        
-        .top-nav img {
-            width: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-     
-
-        .sidebar.hidden + .top-nav + .main-content {
-            margin-left: 0;
-        }
-    </style>
+ 
+  </style>
 </head>
 <body>
-   <!-- Sidebar -->
-   <div class="sidebar" id="sidebar">
-    <h2 class="text-center fw-bold">Urban Care</h2>
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link text-white fs-5" href="#"><i class="bi bi-house-door me-2"></i>Dashboard</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white fs-5" href="./Tasks.html"><i class="bi bi-list-task me-2"></i>Tasks</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white fs-5" href="./Reports.html"><i class="bi bi-file-earmark-text me-2"></i>Reports</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white fs-5" href="./supervisor.php"><i class="bi bi-people me-2"></i>Supervisors</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white fs-5" href="./location.php"><i class="bi bi-geo-alt me-2"></i>Location</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white fs-5" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
-        </li>
-    </ul>
-</div>
+    <?php include './nav.php'; ?>
 
-<!-- Top Navigation -->
-<div class="top-nav d-flex justify-content-between align-items-center p-3 text-white">
-    <h3 class="heading fw-bold"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</h3>
-    <div class="user-info d-flex align-items-center">
-        <img src="profile.jpg" alt="Profile Picture" class="rounded-circle" width="40" height="40">
-        <span class="ms-2 fs-5 fw-semibold"><?php echo $name; ?></span>
-    </div>
-</div>
 
-<div class="container mt-4">
+<div class="container main-content" id="location-nav">
     <div class="d-flex justify-content-between align-items-center">
         <h2>Manage Locations</h2>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addLocationModal">
@@ -158,7 +61,7 @@ if ($stmt) {
         </button>
     </div>
 
-    <table id="locationTable" class="table table-bordered table-striped text-center">
+    <table id="locationTable" class="table table-bordered table-striped text-center table-container">
       <thead class="table-success">
         <tr>
           <th>Sno</th>
@@ -252,16 +155,20 @@ if ($stmt) {
   </div>
 
   <script>
-    $(document).ready(function() {
-      $('#locationTable').DataTable();
+   $(document).ready(function() {
+    $('#locationTable').DataTable({
+        "responsive": true, 
+        "autoWidth": false
+    });
 
-      // Load data into modal
-      $('.edit-btn').click(function() {
+    // Load data into modal
+    $('.edit-btn').click(function() {
         $('#editLocationId').val($(this).data('id'));
         $('#editLocationName').val($(this).data('name'));
         $('#editLocationStatus').val($(this).data('status'));
-      });
     });
+});
+
   </script>
 </body>
 </html>
