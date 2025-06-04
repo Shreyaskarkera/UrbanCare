@@ -6,7 +6,7 @@ $conn = db_connect();
 $user_id = $_GET['user_id'];
 
 // Query to fetch active complaint types
-$sql = "SELECT id, message, created_at FROM notifications WHERE user_id = '$user_id' AND is_read = false ORDER BY created_at DESC";
+$sql = "SELECT id, message, created_at, complaint_id FROM notifications WHERE user_id = '$user_id' AND is_read = false ORDER BY created_at DESC";
 $result = $conn->query($sql);
 
 $notification = [];
@@ -27,4 +27,3 @@ header('Content-Type: application/json');
 echo json_encode($notification);
 
 ?>
-

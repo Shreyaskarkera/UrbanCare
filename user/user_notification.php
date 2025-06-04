@@ -36,6 +36,9 @@
             font-size: 0.8rem;
             padding: 5px 10px;
         }
+        .footer{
+            margin-top: 10%;
+        }
     </style>
 </head>
 
@@ -44,7 +47,7 @@
     <?php include './nav.php'; ?>
 
     <!-- Notifications Section -->
-    <div class="container mt-5 pt-4">
+    <div class="container mt-5 pt-4 mb-5">
         <h1 class="mb-4">Notifications</h1>
         <div class="card shadow-sm">
             <div class="card-header">
@@ -88,7 +91,7 @@
                             var notifyTime = "<div class='time small'>" + timeAgo(notification.created_at) + "</div>";
 
                             // Add notification ID and click event
-                            var data = `<div class='notification-item' data-id='${notification.id}' style='cursor: pointer;'> 
+                            var data = `<div class='notification-item' data-id='${notification.id}'  data-complaintId='${notification.complaint_id}' style='cursor: pointer;'> 
                                     ${notification.message} 
                                     ${notifyTime} 
                                 </div>`;
@@ -99,6 +102,7 @@
                         // Click event for marking as read and redirecting
                         $(".notification-item").click(function() {
                             var notificationId = $(this).data("id");
+                            var complaintId = $(this).data("complaintid");
 
                             // Mark as read in database
                             $.ajax({
@@ -112,7 +116,7 @@
                                     if (response.success) {
                                         console.log("Notification marked as read.");
                                         // Redirect to the View Complaints page
-                                        window.location.href = "view_complaints.php";
+                                        window.location.href = "complaint_details.php?id="+complaintId;
                                     } else {
                                         console.error("Error updating notification:", response.error);
                                     }

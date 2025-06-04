@@ -10,92 +10,145 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role_id'])) {
 
 if ($_SESSION['role_name'] != 'USER') {
     echo "<script>
-    alert('Dont have access to this page');
+    alert('You do not have access to this page');
     window.location.href = '../login.php';
-   </script>";
+    </script>";
+    exit();
 }
 
 $name = $_SESSION['name'];
+
+// Ensure $user data is available
+if (!isset($user) || empty($user)) {
+    echo "<script>alert('User data not found.'); window.location.href = '../login.php';</script>";
+    exit();
+}
+
+// Default profile picture if none exists
+$photo = !empty($user['photo']) ? "../" . htmlspecialchars($user['photo']) : "default_profile_picture.jpg";
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .profile-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-        .profile-card {
-            display: flex;
-            flex-direction: row;
-            width: 90%;
-            max-width: 1000px;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            background: #fff;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .profile-img {
-            width: 250px;
-            height: 250px;
-            border-radius: 15px;
-            object-fit: cover;
-            margin-right: 40px;
-        }
-        .profile-details {
-            flex: 1;
-            font-size: 1.2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .profile-details p {
-            margin: 10px 0;
-            font-size: 1.1rem;
-        }
-        .btn-primary {
-            font-size: 1.2rem;
-            padding: 10px 20px;
-            margin-top: 10px;
-        }
-        @media (max-width: 768px) {
-            .profile-card {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                padding: 30px;
-            }
-            .profile-img {
-                margin: 0 0 20px 0;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/custom.css">
+  <style>
+    body {
+      background: #f5f5f5;
+      color: #333;
+      /* font-family: 'Arial', sans-serif; */
+    }
+
+    .profile-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+      padding: 20px;
+    }
+
+    .profile-card {
+      margin-top:5%;
+      width: 100%;
+      max-width: 450px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      text-align: center;
+    }
+
+    .profile-img-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #007bff;
+    }
+
+    .profile-info-box {
+      background: #f8f9fa;
+      color: #333;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border-left: 4px solid #007bff;
+    }
+
+    .btn-primary {
+      padding: 8px 16px;
+      background: #007bff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      .profile-card {
+        max-width: 90%;
+        padding: 20px;
+      }
+      .profile-img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .profile-card {
+        max-width: 95%;
+        padding: 15px;
+      }
+      .profile-img {
+        width: 90px;
+        height: 90px;
+      }
+      .profile-info-box {
+        font-size: 0.9rem;
+      }
+    }
+  
+  </style>
 </head>
 <body>
-    <div class="container profile-container">
-        <div class="card profile-card">
-            <img src="<?php echo "../".$user['photo']; ?>" class="img-thumbnail profile-img" alt="Profile Picture">
-            <div class="profile-details">
-                <h2><?php echo htmlspecialchars($user['name']); ?></h2>
-                <p><strong>User ID:</strong> <?php echo htmlspecialchars($user['id']); ?></p>
-                <p><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></p>
-                <p><strong>Phone:</strong> <?php echo htmlspecialchars($user['phone_no']); ?></p>
-                <p><strong>Password:</strong> *********</p>
-                <a href="./update_profile.php" class="btn btn-primary">Edit Profile</a>
-            </div>
-        </div>
+<?php include './nav.php'; ?>
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-img-container">
+    <?php
+  // fallback logic
+  $defaultImage = '../asset/images/default_profile.png';
+  $finalPhoto = (!empty($photo) && file_exists($photo)) ? $photo : $defaultImage;
+?>
+<img src="<?= htmlspecialchars($finalPhoto) ?>" class="profile-img" alt="Profile Picture">
+
+
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <h2><?= htmlspecialchars($user['name']); ?></h2>
+    <div class="profile-info-box"><strong>User ID:</strong> <?= htmlspecialchars($user['id']); ?></div>
+    <div class="profile-info-box"><strong>Email:</strong> <?= htmlspecialchars($user['email']); ?></div>
+    <div class="profile-info-box"><strong>Phone:</strong> <?= htmlspecialchars($user['phone_no']); ?></div>
+    <a href="./update_profile.php" class="btn btn-primary">Edit Profile</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<?php include './footer.php'; ?>
+
 </body>
 </html>

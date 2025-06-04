@@ -43,6 +43,7 @@ if (isset($_GET['toggle_id']) && isset($_GET['status'])) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../admin/css/admin.css">
 </head>
 
@@ -53,7 +54,7 @@ if (isset($_GET['toggle_id']) && isset($_GET['status'])) {
     <h2 class="mb-4 b">User Management</h2>
 
     <table id="userTable" class="table table-bordered table-striped text-center table-container">
-      <thead class="table-primary">
+      <thead class="table-success">
         <tr>
           <th>Sno</th>
           <th>User ID</th>

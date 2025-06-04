@@ -1,33 +1,72 @@
 <?php
-
-include '../connection.php';
 session_start();
+require_once '../connection.php';
+require_once '../authentication.php';
+
 $conn = db_connect();
 
-// Check if session is set and the role is USER
+
+$current_url = $_SERVER['REQUEST_URI'];
+
+
+if (
+    !isset($_SESSION['role_name']) ||
+    (strpos($current_url, '/supervisor') !== false && $_SESSION['role_name'] === 'SUPERVISOR')
+) {
+    $_SESSION['redirect_back'] = $current_url;
+}
+
+
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['role_id'])) {
-    // Redirect to index page if the session does not exist or role is not USER
-    header("Location: ../index.html");
+    header("Location: ../login.php");
     exit();
 }
 
-if ($_SESSION['role_name'] != 'SUPERVISOR') {
+
+if (!isset($_SESSION['role_name'])) {
+    $role = getRoleById($_SESSION['role_id']);
+    if ($role) {
+        $_SESSION['role_name'] = strtoupper($role['name']);
+    } else {
+        echo "<script>alert('Unable to fetch user role.'); window.location.href='../login.php';</script>";
+        exit();
+    }
+}
+
+
+if ($_SESSION['role_name'] !== 'SUPERVISOR') {
+    $role_redirect = strtolower($_SESSION['role_name']) . "/";
     echo "<script>
-    alert('Dont have access to this page');window.location.href = '../login.php';
-   </script>";
+        alert('You do not have access to this page.');
+        window.location.href = '../$role_redirect';
+    </script>";
+    exit();
 }
 
 $name = $_SESSION['name'];
-
-?>
-<?php
 $supervisor_id = $_SESSION['user_id'];
+
 
 $sql = "SELECT * FROM complaints WHERE supervisor_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $supervisor_id);
 $stmt->execute();
 $result = $stmt->get_result();
+
+// Check if supervisor is assigned to at least one active place
+$check_sql = "SELECT `id` FROM `supervisor_map` WHERE `supervisor_id` = ? AND `is_active` = 1";
+$check_stmt = $conn->prepare($check_sql);
+$check_stmt->bind_param("i", $supervisor_id);
+$check_stmt->execute();
+$check_result = $check_stmt->get_result();
+
+if ($check_result->num_rows === 0) {
+    echo "<script>alert('You are not assigned to any place. Please contact the admin.');</script>";
+    // Optional: Redirect or prevent further access
+    // exit(); // Uncomment if you want to stop further access
+}
+$check_stmt->close();
+
 
 
 db_close($conn);
@@ -43,72 +82,18 @@ db_close($conn);
     <title>Urban Care - Supervisor Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <!-- dataTable -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="css/nav.css">
     <style>
-        /* Darker Mode, More Appealing Theme */
-       
+ 
     </style>
 </head>
 
 <body>
 <?php include './nav.php'; ?>
-    <!-- View Profile Modal
-    <div class="modal fade" id="viewProfileModal" tabindex="-1" aria-labelledby="viewProfileModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="viewProfileModalLabel">Profile Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Name:</strong> John Doe</p>
-                    <p><strong>Email:</strong> johndoe@example.com</p>
-                    <p><strong>Phone:</strong> +1234567890</p>
-                    <p><strong>Role:</strong> Supervisor</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    Update Profile Modal -->
-    <!-- <div class="modal fade" id="updateProfileModal" tabindex="-1" aria-labelledby="updateProfileModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="updateProfileModalLabel">Update Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="updateProfileForm">
-                        <div class="mb-3">
-                            <label for="editName" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="editName" value="John Doe">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="editEmail" value="johndoe@example.com">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editPhone" class="form-label">Phone</label>
-                            <input type="text" class="form-control" id="editPhone" value="+1234567890">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> --> 
-
     <!-- Content Section -->
-    <div class="container mt-5 pt-4">
+    <div class="container mt-5 pt-4 p-5">
         <div class="row mt-4">
             <div class="col-lg-3 col-md-6 mb-4">
                 <div data-type="Open" class="card text-center shadow-sm">
@@ -417,14 +402,10 @@ db_close($conn);
                     }
                 });
             }
-
             // Fetch status counts every 5 seconds
             setInterval(fetchStatusCounts, 10000);
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
-
 </body>
 
 </html>

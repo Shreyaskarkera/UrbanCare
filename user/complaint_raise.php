@@ -109,6 +109,7 @@ if (isset($_POST['raise_complaint'])) {
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 100px;
     }
 
     .status-message {
@@ -245,10 +246,13 @@ if (isset($_POST['raise_complaint'])) {
         if (placeName) {
             console.log(placeName);
             var geocoder = L.Control.Geocoder.nominatim({
-                geocodingQueryParams: {
-                    countrycodes: 'IN' // Restrict results to India
-                }
-            });
+    geocodingQueryParams: {
+        countrycodes: 'IN', // Restrict results to India
+        viewbox: "74.0, 15.0, 78.5, 11.5", // Bounding box covering Karnataka
+        bounded: 1 // Prioritize results within Karnataka
+    }
+});
+
 
             geocoder.geocode(placeName, function(results) {
                 if (results.length > 0) {
