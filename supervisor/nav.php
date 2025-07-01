@@ -1,7 +1,7 @@
 <!-- Top Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Urban Care</a>
+            <a class="navbar-brand hedding" href="#">Urban Care</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -17,7 +17,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="supervisor_map.php"><i class="fas fa-map-marker-alt me-2"></i>Map</a>
+                        <a class="nav-link" href="./supervisor_map.php"><i class="fas fa-map-marker-alt me-2"></i>Map</a>
                     </li>
                     <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button"
@@ -43,9 +43,6 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="./view_profile.php" data-bs-toggle="modal"
                                     data-bs-target="">View Profile</a></li>
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                    data-bs-target="#updateProfileModal">Update Profile</a></li>
-                            <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="../logout.php">Logout</a></li>

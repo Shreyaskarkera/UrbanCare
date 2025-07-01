@@ -14,6 +14,7 @@ $conn = db_connect();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./css/admin.css">
     <style>
         body {
@@ -55,11 +56,11 @@ $conn = db_connect();
     <?php include './nav.php'; ?>
 
     <div class="main-content mt-4">
-        <div class="card p-3">
-            <h2 class="text-center">User Feedback</h2>
+       
+            <h2 class="mb-2 text-center">User Feedback</h2>
             <div class="table-responsive">
-                <table id="feedbackTable" class="table table-striped table-bordered mt-3">
-                    <thead class="table-dark">
+                <table id="feedbackTable" class="table table-bordered table-striped text-center table-container">
+                    <thead class="table-success">
                         <tr>
                             <th>ID</th>
                             <th>User</th>
@@ -136,7 +137,6 @@ $conn = db_connect();
                 </script>
 
             </div>
-        </div>
     </div>
 </body>
 

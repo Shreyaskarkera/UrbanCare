@@ -1,6 +1,6 @@
 <?php
 include './sessionValidate.php'; 
-include '../connection.php';
+// include '../connection.php';
 $conn = db_connect();
 // Ensure user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -18,17 +18,52 @@ $user_id = mysqli_real_escape_string($conn, $_SESSION['user_id']);
     <title>User Feedback</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/custom.css">
     <style>
-        body { padding-top: 70px; }
-        .rating i { font-size: 24px; cursor: pointer; }
-        .card { max-width: 600px; margin: auto; }
-    </style>
+    body {
+        padding-top: 70px;
+    }
+
+    .rating i {
+        font-size: 24px;
+        cursor: pointer;
+        color: gray;
+    }
+
+    .card {
+        max-width: 800px;     /* consistent max size */
+        width: 100%;          /* full width on small screens */
+        margin: auto;
+        margin-bottom: 5%;
+        padding: 20px;
+    }
+
+    .footer {
+        margin-top: 10%;
+    }
+
+    /* Media Query for small screens */
+    @media (max-width: 576px) {
+        .card {
+            padding: 15px;
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Media Query for large screens (optional fine-tuning) */
+    @media (min-width: 992px) {
+        .card {
+            padding: 30px;
+        }
+    }
+</style>
+
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    
         <?php include './nav.php'; ?>
-    </nav>
+  
     
     <div class="container mt-5">
         <div class="card p-4">
@@ -73,16 +108,27 @@ $user_id = mysqli_real_escape_string($conn, $_SESSION['user_id']);
         </div>
     </div>
     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.querySelectorAll('.rating i').forEach(star => {
-            star.addEventListener('click', function () {
-                let value = this.getAttribute('data-value');
-                document.getElementById('rating').value = value;
-                document.querySelectorAll('.rating i').forEach((s, index) => {
-                    s.classList.toggle('text-primary', index < value);
-                });
+    document.querySelectorAll('.rating i').forEach(star => {
+        star.addEventListener('click', function () {
+            let value = this.getAttribute('data-value');
+            document.getElementById('rating').value = value;
+            
+            // Reset all stars
+            document.querySelectorAll('.rating i').forEach(s => {
+                s.style.color = "gray";
             });
+
+            // Highlight selected stars in gold
+            for (let i = 0; i < value; i++) {
+                document.querySelectorAll('.rating i')[i].style.color = "gold";
+            }
         });
-    </script>
+    });
+</script>
+
+    <?php include './footer.php'; ?>
 </body>
 </html>

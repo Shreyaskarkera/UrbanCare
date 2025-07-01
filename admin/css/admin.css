@@ -13,7 +13,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #28a745;
+    background-color: #137229;
     padding-top: 15px;
     color: white;
     box-shadow: 3px 0 8px rgba(0, 0, 0, 0.15);
@@ -40,7 +40,7 @@ body {
 
 /* Top Navigation Bar */
 .top-nav {
-    background-color: #28a745;
+    background-color: #137229;
     color: white;
     padding: 12px 20px;
     display: flex;

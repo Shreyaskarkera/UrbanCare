@@ -72,6 +72,7 @@ mysqli_close($conn);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../admin/css/admin.css">
 
     <style>
@@ -88,21 +89,29 @@ mysqli_close($conn);
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#allocateModal">Allocate Supervisor</button>
         </div>
 
-        <table id="assignmentsTable" class="table table-bordered table-striped">
-            <thead class="table-success">
-                <tr>
-                    <th>Place Name</th>
-                    <th>Supervisor Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $assignments->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= $row['place_name'] ?></td>
-                        <td><?= $row['supervisor_name'] ?></td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
+        <table id="assignmentsTable"class="table table-bordered table-striped text-center table-container">
+        <thead class="table-success">
+    <tr>
+        <th>Place Name</th>
+        <th>Supervisor Name</th>
+        <th>Action</th>
+    </tr>
+</thead>
+<tbody>
+    <?php while ($row = $assignments->fetch_assoc()): ?>
+        <tr>
+            <td><?= $row['place_name'] ?></td>
+            <td><?= $row['supervisor_name'] ?></td>
+            <td>
+                <form action="remove_allocate_supervisor.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this assignment?');">
+                    <input type="hidden" name="assignment_id" value="<?= $row['id'] ?>">
+                    <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>
+                </form>
+            </td>
+        </tr>
+    <?php endwhile; ?>
+</tbody>
+
         </table>
     </div>
 

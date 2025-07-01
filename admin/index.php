@@ -11,7 +11,7 @@ $result = $conn->query($sql);
 
 // Fetch counts
 $total = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM complaints"))['total'];
-$users = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total_users FROM users WHERE id = 1;"));
+$users = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total_users FROM users WHERE role_id = 1;"));
 $in_progress = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS in_progress FROM complaints WHERE complaint_status = 'In-Progress'"))['in_progress'];
 $resolved = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS resolved FROM complaints WHERE complaint_status = 'Resolved'"))['resolved'];
 $location = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS active_locations FROM place WHERE is_active = 1"));
@@ -43,42 +43,29 @@ $supervisors = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS superv
             text-decoration: none;
             color: inherit;
         }
+
+        #container-table-size {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
 <body>
     <?php include './nav.php'; ?>
-    <!-- Sidebar -->
-    <!-- <div class="sidebar" id="sidebar">
-    <button class="toggle-btn" id="toggleSidebar">☰</button>
-    <h2 class="text-center">Urban Care</h2>
-    <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link text-white" href="#">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="./Tasks.html">Tasks</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="./Reports.html">Reports</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="./supervisor.php">Supervisors</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="./location.php">Location</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="./complaint_type.php">Complaint Type</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="./allocate_supervisor.php">Allocate Supervisor</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#">Logout</a></li>
-    </ul>
-</div>
-<div class="top-nav">
-            <h3 class="heading">Admin Dashboard</h3>
-            <div class="user-info">
-                <img src="profile.jpg" alt="Profile Picture">
-                <span></span>
-            </div>
-        </div> -->
-    <!-- Main Content -->
+   
     <div class="main-content">
         <h2 class="text-center mb-4">Dashboard Overview</h2>
         <div class="row g-4">
             <div class="col-md-3 col-sm-6">
                 <div class="card text-center p-3 shadow">
                     <i class="fa-sharp fa-solid fa-users  fa-2x" style="color: #007bff;"></i>
-                    <h2 class="mt-2"><?php echo $total; ?></h2>
-                    <p>Users</p>
+                    <h2 class="mt-2"><?php echo $users['total_users']; ?></h2>
+                    <a href="users.php">
+                        <p>User</p>
+                    </a>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
@@ -103,8 +90,8 @@ $supervisors = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS superv
                 <div class="card text-center p-3 shadow">
                     <i class="fa-solid fa-triangle-exclamation fa-2x" style="color:rgb(247, 23, 23);"></i>
                     <h2 class="mt-2"><?php echo $total; ?></h2>
-                    <a href="supervisor.html" class="text-dark">
-                        <p>Total Complaints</p>
+
+                    <p>Total Complaints</p>
                     </a>
                 </div>
             </div>
@@ -116,7 +103,7 @@ $supervisors = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS superv
             <h3 class="text-center mb-3">All Registered Complaints</h3>
 
             <table class="table table-bordered table-hover table-striped" id="complaintsTable">
-                <thead>
+                <thead class="table-success">
                     <tr>
                         <th>SNO</th>
                         <th>Complaint ID</th>
@@ -126,6 +113,7 @@ $supervisors = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS superv
                         <th>Date</th>
                         <th>Status</th>
                         <th>Supervisor ID</th>
+                        <th>Action</th> <!-- New column -->
                     </tr>
                 </thead>
                 <tbody>
@@ -141,34 +129,40 @@ $supervisors = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS superv
                         echo "<td>" . $row["created_at"] . "</td>";
                         echo "<td>" . $row["complaint_status"] . "</td>";
                         echo "<td>" . ($row["supervisor_id"] ? $row["supervisor_id"] : "Not Assigned") . "</td>";
-                        echo "</tr>";
+
+                        // View Button
+                        echo "<td>
+        <a href='view_complaint.php?id=" . $row["id"] . "' class='btn btn-sm btn-primary'>
+            <i class='bi bi-eye'></i> View
+        </a>
+      </td>";
                     }
                     ?>
                 </tbody>
             </table>
         </div>
-    </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const toggleButton = document.getElementById("toggleSidebar");
-            const sidebar = document.getElementById("sidebar");
-            const topNav = document.querySelector(".top-nav");
-            const mainContent = document.querySelector(".main-content");
 
-            toggleButton.addEventListener("click", function() {
-                sidebar.classList.toggle("hidden");
-                topNav.classList.toggle("expanded");
-                mainContent.classList.toggle("expanded");
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const toggleButton = document.getElementById("toggleSidebar");
+                const sidebar = document.getElementById("sidebar");
+                const topNav = document.querySelector(".top-nav");
+                const mainContent = document.querySelector(".main-content");
+
+                toggleButton.addEventListener("click", function() {
+                    sidebar.classList.toggle("hidden");
+                    topNav.classList.toggle("expanded");
+                    mainContent.classList.toggle("expanded");
+                });
             });
-        });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#complaintsTable').DataTable();
-        });
-    </script>
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#complaintsTable').DataTable();
+            });
+        </script>
 </body>
 
 </html>

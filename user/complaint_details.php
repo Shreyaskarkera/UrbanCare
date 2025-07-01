@@ -66,39 +66,31 @@ if (!$complaint) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complaint Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/custom.css">
+
     <style>
         :root {
             --primary-color: #0077B6;
-            /* Soft Blue */
             --secondary-color: #9e9e9e;
             --toggle-icon-secondary-color: #ffffff00;
-            /* Vibrant Green */
             --accent-color: #FF6F61;
-            /* Warm Coral */
             --background-color: #F1F1F1;
-            /* Soft Gray */
             --text-color: #333333;
-            /* Charcoal Gray */
             --footer-color: #2A3D66;
-            /* Deep Slate */
         }
 
-        .container {
+        .main-container {
+            margin-top: 100px;
             max-width: 800px;
-            margin: auto;
-            padding-top: 30px;
-            margin-top: 70px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .card {
             border-radius: 10px;
             padding: 20px;
-        }
-
-        .img-container {
-            text-align: center;
+            overflow: hidden;
         }
 
         .img-container img {
@@ -107,155 +99,98 @@ if (!$complaint) {
             border-radius: 10px;
         }
 
-        .navbar {
-            background-color: var(--primary-color);
+        @media (max-width: 576px) {
+            .main-container {
+                margin-top: 70px;
+                padding: 10px;
+            }
         }
-
-        .navbar-brand h1 {
-            color: white;
-        }
-
-        .navbar-nav .nav-link {
-            color: white;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: rgb(73, 73, 73) !important;
-        }
-
-        /* Custom Toggle Icon */
-        .navbar-toggler-icon {
-            background-color: var(--toggle-icon-secondary-color);
-            /* Change the toggle icon color */
-        }
-
-        .navbar-toggler-icon:hover {
-            border: 1px solid var(--secondary-color);
-            /* Optional: Add border for better visibility */
-        }
-
-        .navbar-toggler-icon:hover {
-            background-color: var(--toggle-icon-secondary-color);
-            /* Hover effect */
-        }
-
-        .navbar-toggler-icon:focus {
-            box-shadow: none;
-            /* Removes the blue shadow when focused */
-        }
+       .footer{
+        margin-top: 10px;
+       }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <h1>Urban Care</h1>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="./index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="./complaint_raise.php">Raise Complaint</a></li>
-                    <li class="nav-item"><a class="nav-link" href="./view_complaints.php">View Complaints</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#help">Help</a></li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link position-relative" href="./user_notification.php">
-                            <i class="bi bi-bell"></i>
-                            <span id="notificationBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> <?php echo $name; ?>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="./view_profile.php">View Profile</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="container">
-        <h2 class="text-center mb-4">Complaint Details</h2>
-        <div class="card p-4">
-            <table class="table table-bordered">
-                <tbody>
-                    <tr>
-                        <th>Complaint ID</th>
-                        <td><?= $complaint['id'] ?></td>
-                    </tr>
-                    <tr>
-                        <th>Title</th>
-                        <td><?= htmlspecialchars($complaint['title']) ?></td>
-                    </tr>
-                    <tr>
-                        <th>Description</th>
-                        <td><?= nl2br(htmlspecialchars($complaint['description'])) ?></td>
-                    </tr>
-                    <tr>
-                        <th>Location</th>
-                        <td><?= htmlspecialchars($complaint['location']) ?></td>
-                    </tr>
-                    <tr>
-                        <th>Latitude</th>
-                        <td><?= $complaint['latitude'] ?></td>
-                    </tr>
-                    <tr>
-                        <th>Longitude</th>
-                        <td><?= $complaint['longitude'] ?></td>
-                    </tr>
-                    <tr>
-                        <th>Status</th>
-                        <td>
-                            <?php
-                            $status = $complaint['complaint_status'];
-                            $statusColors = [
-                                'Open' => 'color: blue; font-weight: bold;',
-                                'In-Progress' => 'color: orange; font-weight: bold;',
-                                'Resolved' => 'color: green; font-weight: bold;',
-                                'Rejected' => 'color: red; font-weight: bold;'
-                            ];
-                            ?>
-                            <span style="<?= $statusColors[$status] ?? 'color: black; font-weight: bold;' ?>">
-                                <?= htmlspecialchars($status) ?>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Action Date</th>
-                        <td><?= $complaint['action_date'] ? $complaint['action_date'] : 'N/A' ?></td>
-                    </tr>
-                    <tr>
-                        <th>Resolved Date</th>
-                        <td><?= $complaint['resolved_date'] ? $complaint['resolved_date'] : 'N/A' ?></td>
-                    </tr>
-                    <?php if (!empty($complaint['photo'])): ?>
-                        <tr>
-                            <th>Complaint Image</th>
-                            <td class="text-center">
-                                <img src="../<?= htmlspecialchars($complaint['photo']) ?>" alt="Complaint Image" style="max-width: 300px; border-radius: 8px;">
-                            </td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-            <div class="text-center">
-                <a href="view_complaints.php" class="btn btn-primary mt-3">Back to Complaints</a>
+    <?php include './nav.php'; ?>
+    <div class="container-fluid">
+        <div class="main-container">
+            <h2 class="text-center mb-4">Complaint Details</h2>
+            <div class="card p-3">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>Complaint ID</th>
+                                <td><?= $complaint['id'] ?></td>
+                            </tr>
+                            <tr>
+                                <th>Title</th>
+                                <td><?= htmlspecialchars($complaint['title']) ?></td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td><?= nl2br(htmlspecialchars($complaint['description'])) ?></td>
+                            </tr>
+                            <tr>
+                                <th>Location</th>
+                                <td><?= htmlspecialchars($complaint['location']) ?></td>
+                            </tr>
+                            <tr>
+                                <th>Latitude</th>
+                                <td><?= $complaint['latitude'] ?></td>
+                            </tr>
+                            <tr>
+                                <th>Longitude</th>
+                                <td><?= $complaint['longitude'] ?></td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+
+                                <?php
+                                $status = $complaint["complaint_status"];
+
+                                $statusClasses = [
+                                    'Open' => 'badge bg-primary',
+                                    'In-Progress' => 'badge bg-warning text-dark',
+                                    'Resolved' => 'badge bg-success',
+                                    'Rejected' => 'badge bg-danger'
+                                ];
+
+                                echo '<td><span class="' . ($statusClasses[$status] ?? 'badge bg-secondary') . '" style="font-size: 18px; padding: 8px 12px;">' . htmlspecialchars($status) . '</span></td>';
+                                ?>
+
+                            </tr>
+                            <tr>
+                                <th>Action Date</th>
+                                <td><?= $complaint['action_date'] ? $complaint['action_date'] : 'N/A' ?></td>
+                            </tr>
+                            <tr>
+                                <th>Resolved Date</th>
+                                <td><?= $complaint['resolved_date'] ? $complaint['resolved_date'] : 'N/A' ?></td>
+                            </tr>
+                            <?php if (!empty($complaint['photo'])): ?>
+                                <tr>
+                                    <th>Complaint Image</th>
+                                    <td class="text-center">
+                                        <img src="../<?= htmlspecialchars($complaint['photo']) ?>" alt="Complaint Image" class="img-fluid rounded">
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center">
+                    <a href="view_complaints.php" class="btn btn-primary mt-3">Back to Complaints</a>
+                </div>
             </div>
         </div>
     </div>
-
-
+    <?php include './footer.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  
 </body>
 
 </html>

@@ -1,6 +1,5 @@
 <?php include './sessionValidate.php'; ?>
 
-
 <?php
 require_once("../connection.php");
 $conn = db_connect();
@@ -10,7 +9,6 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
-
 
 db_close($conn);
 ?>
@@ -27,22 +25,52 @@ db_close($conn);
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="./css/custom.css">
-
     <!-- dataTable -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="./css/custom.css">
+
+    <style>
+      
+        /* Responsive Table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Responsive Buttons */
+        .btn-sm {
+            font-size: 0.875rem;
+            padding: 0.4rem 0.8rem;
+        }
+
+        /* Make Modal Image Fully Responsive */
+        #modalImage {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+
+        /* Center text in table on small screens */
+        @media (max-width: 576px) {
+
+            .table th,
+            .table td {
+                font-size: 0.9rem;
+               
+            }
+        }
+    </style>
 
 </head>
 
 <body>
-
 
     <?php include './nav.php'; ?>
 
     <!-- View Complaints Section -->
     <section class="container my-5 pt-5">
         <h2 class="text-center mb-4">View Complaints</h2>
-        <div class="table-responsive">
+        <div class="table-responsive mb-5">
             <table class="table table-striped" id="complaintsTable">
                 <thead>
                     <tr>
@@ -66,15 +94,22 @@ db_close($conn);
                             echo "<td>" . $row["title"] . "</td>";
                             echo "<td>" . $row["description"] . "</td>";
                             echo "<td>" . $row["created_at"] . "</td>";
-                            echo "<td>" . $row["complaint_status"] . "</td>";
+                            $status = $row["complaint_status"];
+
+                            $statusColors = [
+                                'Open' => 'style="color: blue; font-weight: bold;"',
+                                'In-Progress' => 'style="color: orange; font-weight: bold;"',
+                                'Resolved' => 'style="color: green; font-weight: bold;"',
+                                'Rejected' => 'style="color: red; font-weight: bold;"'
+                            ];
+
+                            echo "<td " . ($statusColors[$status] ?? '') . ">" . htmlspecialchars($status) . "</td>";
                             echo "<td><a href='./complaint_details.php?id=" . $row["id"] . "' class='btn btn-primary btn-sm'>View</a></td>";
                             echo "</tr>";
                         }
                     }
                     ?>
                 </tbody>
-            </table>
-            </tbody>
             </table>
         </div>
     </section>
@@ -104,17 +139,19 @@ db_close($conn);
         </div>
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <?php include './footer.php'; ?>
-    
+
     <script>
         $(document).ready(function() {
-            $('#complaintsTable').DataTable();
+            $('#complaintsTable').DataTable({
+                "responsive": true
+            });
         });
     </script>
+
 </body>
 
 </html>

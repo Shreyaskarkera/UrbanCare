@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($conn->query($sql) === TRUE) {
-        $sql_notification = "INSERT INTO notifications(user_id, message) VALUES ('$user_id','$message')";
+        $sql_notification = "INSERT INTO notifications(user_id, message, complaint_id) VALUES ('$user_id','$message','$id')";
         $conn->query($sql_notification);
         echo "Status updated to " . strtoupper($status);
 

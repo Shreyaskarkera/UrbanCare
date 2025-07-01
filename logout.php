@@ -3,12 +3,12 @@
 session_start();
 
 // Unset all session variables
-session_unset();
+$_SESSION = array(); // Clear the session array
 
 // Destroy the session
 session_destroy();
 
-// Redirect to login page (or any other page)
-header("Location: index.html");
+// Redirect to login page
+header("Location: ./index.php"); // Adjust the path if needed
 exit();
 ?>

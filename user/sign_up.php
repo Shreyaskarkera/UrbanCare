@@ -1,32 +1,52 @@
 <?php
-    require_once __DIR__ . '/../authentication.php';
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-if (isset($_POST['signup'])) {
-    // Get form data and sanitize
+require_once __DIR__ . '/../authentication.php';
+
+$conn = db_connect();
+if (!$conn) {
+    die("Database connection failed.");
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
-    $phone_no=$_POST['phone'];
+    $phone_no = trim($_POST['phone']);
 
-    $phone_no=strlen($phone_no);
-
-    if($phone_no>10){
-       echo "<script>
-        alert('Phone number is too long');
-        window.location.href = '../user/sign_up.php'; 
-      </script>";
-        
-    }
-    // Validate input (Basic Validation)
-    if (empty($name) || empty($email) || empty($password)) {
+    if (empty($name) || empty($email) || empty($password) || empty($phone_no)) {
         die("All fields are required.");
     }
 
-    if (insertUser($name, $email, $password, $phone_no)) {
-        echo "Registration successful!";
-        header("Location: ../login.php");
-    } else {
-        echo "Error: ";
+    // Check if email already exists
+    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        die("This email is already registered.");
     }
+    $stmt->close();
+
+    // Hash password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    // Insert user
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, phone_no, role_id) VALUES (?, ?, ?, ?, ?)");
+    $role_id = 1;
+    $stmt->bind_param("ssssi", $name, $email, $hashedPassword, $phone_no, $role_id);
+    
+    
+    if ($stmt->execute()) {
+        echo "Registration successful!";
+    } else {
+        die("Error inserting data: " . $stmt->error);
+    }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>

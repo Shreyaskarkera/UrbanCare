@@ -19,35 +19,39 @@ function insertUser($name, $email, $password, $phone_no)
     return $success;  // Return true or false depending on query success
 }
 
-function getUserByEmailPassword($email, $password, &$errorMessage)
-{
+function getUserByEmailPassword($email, $password, &$errorMessage) {
     $conn = db_connect();
-    
-    $sql = "SELECT id, name, role_id, is_active FROM users WHERE email = ? AND password = ?";
-    
+
+    $sql = "SELECT id, name, role_id, password, is_active FROM users WHERE email = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $email, $password);
+    $stmt->bind_param("s", $email);
     $stmt->execute();
-    
     $result = $stmt->get_result();
-    $user = ($result->num_rows > 0) ? $result->fetch_assoc() : null;
     
+    if ($result->num_rows === 0) {
+        $errorMessage = "Invalid email or password.";
+        return null;
+    }
+
+    $user = $result->fetch_assoc();
     $stmt->close();
     db_close($conn);
 
-    if ($user) {
-        // 🔹 Check if user is blocked
-        if ($user['is_active'] == 0) {
-            $errorMessage = "Your account has been blocked. Please contact the administrator.";
-            return null;
-        }
-        return $user; // Login successful
+    // 🔹 Verify the password using password_verify()
+    if (!password_verify($password, $user['password'])) {
+        $errorMessage = "Invalid email or password.";
+        return null;
     }
 
-    // 🔹 If credentials are incorrect
-    $errorMessage = "Invalid email or password.";
-    return null;
+    // 🔹 Check if user is blocked
+    if ($user['is_active'] == 0) {
+        header("Location: block_page.php");
+        exit();
+    }
+
+    return $user; // Login successful
 }
+
 
 
 function getRoleById($role_id) {
