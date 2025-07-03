@@ -27,7 +27,11 @@ if (!$user) {
     die("User not found.");
 }
 
+<<<<<<< HEAD
 // Image handling (uses ../uploads/ + filename from DB)
+=======
+
+>>>>>>> 963cf97d0c76debcafe1ed9557be3be99da14b2d
 $defaultImage = '../asset/images/default_profile.png';
 $photoFilename = $user['photo'];
 $photoWebPath = "../uploads/" . $photoFilename;

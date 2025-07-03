@@ -36,6 +36,9 @@
             font-size: 0.8rem;
             padding: 5px 10px;
         }
+        .footer{
+            margin-top: 10%;
+        }
     </style>
 </head>
 

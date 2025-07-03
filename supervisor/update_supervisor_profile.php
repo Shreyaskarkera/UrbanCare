@@ -172,7 +172,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <?php
             $uploadPath = '../uploads/' . $supervisor['photo'];
+<<<<<<< HEAD
             $photoSrc = (!empty($supervisor['photo']) && file_exists($uploadPath)) ? $uploadPath : '../default_profile_picture.jpg';
+=======
+            $photoSrc = (!empty($supervisor['photo']) && file_exists($uploadPath)) ? $uploadPath : '../asset/images/default_profile.png';
+>>>>>>> 963cf97d0c76debcafe1ed9557be3be99da14b2d
         ?>
 
         <img id="profilePreview" src="<?= htmlspecialchars($photoSrc) ?>" class="profile-pic" alt="Profile Picture">

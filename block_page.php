@@ -108,7 +108,11 @@
                     Contact support for further help. Please include your registered email and any
                     relevant details when reaching out.
                 </p>
+<<<<<<< HEAD
                 <a href="./index.html" class="btn btn-lg btn-primary mt-3">
+=======
+                <a href="../UrbanCare/index.php" class="btn btn-lg btn-primary mt-3">
+>>>>>>> 963cf97d0c76debcafe1ed9557be3be99da14b2d
                     <i class="bi bi-house-door-fill"></i> Go to Homepage
                 </a>
             </div>

@@ -31,6 +31,7 @@ if (!isset($_SESSION['role_name'])) {
         echo "<script>alert('Unable to fetch user role.'); window.location.href='../login.php';</script>";
         exit();
     }
+<<<<<<< HEAD
 }
 
 
@@ -44,6 +45,20 @@ if ($_SESSION['role_name'] !== 'SUPERVISOR') {
 }
 
 
+=======
+}
+
+
+if ($_SESSION['role_name'] !== 'SUPERVISOR') {
+    $role_redirect = strtolower($_SESSION['role_name']) . "/";
+    echo "<script>
+        alert('You do not have access to this page.');
+        window.location.href = '../$role_redirect';
+    </script>";
+    exit();
+}
+
+>>>>>>> 963cf97d0c76debcafe1ed9557be3be99da14b2d
 $name = $_SESSION['name'];
 $supervisor_id = $_SESSION['user_id'];
 
@@ -54,6 +69,25 @@ $stmt->bind_param("i", $supervisor_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
+<<<<<<< HEAD
+=======
+// Check if supervisor is assigned to at least one active place
+$check_sql = "SELECT `id` FROM `supervisor_map` WHERE `supervisor_id` = ? AND `is_active` = 1";
+$check_stmt = $conn->prepare($check_sql);
+$check_stmt->bind_param("i", $supervisor_id);
+$check_stmt->execute();
+$check_result = $check_stmt->get_result();
+
+if ($check_result->num_rows === 0) {
+    echo "<script>alert('You are not assigned to any place. Please contact the admin.');</script>";
+    // Optional: Redirect or prevent further access
+    // exit(); // Uncomment if you want to stop further access
+}
+$check_stmt->close();
+
+
+
+>>>>>>> 963cf97d0c76debcafe1ed9557be3be99da14b2d
 db_close($conn);
 ?>
 

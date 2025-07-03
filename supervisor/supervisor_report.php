@@ -226,10 +226,17 @@ $complaints = $stmt->get_result();
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
+<<<<<<< HEAD
                     <h5 class="modal-title">Download Report</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
+=======
+                    <h5 class="modal-title text-dark">Download Report</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-dark">
+>>>>>>> 963cf97d0c76debcafe1ed9557be3be99da14b2d
                     <label>From Date:</label>
                     <input type="date" id="startDate" class="form-control">
                     <label class="mt-2">To Date:</label>

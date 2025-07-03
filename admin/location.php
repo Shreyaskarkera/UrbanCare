@@ -4,7 +4,11 @@ session_start(); // Start the session
 include '../connection.php'; // Include database connection file
 
 // Check if user is logged in and has the correct role
+<<<<<<< HEAD
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['role_id']) || $_SESSION['role_id'] != 3) { // Assuming role_id 1 is for ADMIN
+=======
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['role_id']) || $_SESSION['role_id'] != 3) {
+>>>>>>> 963cf97d0c76debcafe1ed9557be3be99da14b2d
   echo "<script>alert('You don’t have access to this page'); window.location.href = '../login.php';</script>";
   exit();
 }
@@ -14,7 +18,35 @@ if (!$conn) {
   die("Database connection failed: " . mysqli_connect_error());
 }
 
-// Fetch all locations from the `place` table
+// Handle form submission to add location
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name'])) {
+  $location_name = trim($_POST['name']);
+  $status = isset($_POST['status']) ? intval($_POST['status']) : 1;
+
+  // Check if location already exists
+  $check_query = "SELECT id FROM place WHERE name = ?";
+  $check_stmt = mysqli_prepare($conn, $check_query);
+  mysqli_stmt_bind_param($check_stmt, "s", $location_name);
+  mysqli_stmt_execute($check_stmt);
+  $check_result = mysqli_stmt_get_result($check_stmt);
+
+  if (mysqli_num_rows($check_result) > 0) {
+    echo "<script>alert('Location already exists.'); window.location.href='location.php';</script>";
+    exit();
+  }
+
+  // Insert location
+  $insert_query = "INSERT INTO place (name, is_active) VALUES (?, ?)";
+  $insert_stmt = mysqli_prepare($conn, $insert_query);
+  mysqli_stmt_bind_param($insert_stmt, "si", $location_name, $status);
+  if (mysqli_stmt_execute($insert_stmt)) {
+    echo "<script>alert('Location added successfully'); window.location.href='location.php';</script>";
+  } else {
+    echo "<script>alert('Failed to add location'); window.location.href='location.php';</script>";
+  }
+}
+
+// Fetch all locations
 $query = "SELECT id, name, is_active FROM place";
 $stmt = mysqli_prepare($conn, $query);
 if ($stmt) {

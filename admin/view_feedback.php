@@ -57,7 +57,11 @@ $conn = db_connect();
 
     <div class="main-content mt-4">
        
+<<<<<<< HEAD
             <h2 class="mb-2 text-center">User Feedback</h2>
+=======
+            <h2 class="mb-2 ">User Feedback</h2>
+>>>>>>> 963cf97d0c76debcafe1ed9557be3be99da14b2d
             <div class="table-responsive">
                 <table id="feedbackTable" class="table table-bordered table-striped text-center table-container">
                     <thead class="table-success">
